@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol ItemTableViewCellDelegate : AnyObject {
+    func toggleItemState(sender : UITableViewCell)
+}
+
 class ItemTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var isCompleted: UIImageView!
+ 
+    @IBOutlet weak var itemImageView: UIButton!
     @IBOutlet weak var itemNameLabel: UILabel!
-    @IBOutlet weak var itemDescriptionLabel: UILabel!
     
+    weak var delegate : ItemTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,4 +30,7 @@ class ItemTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func imageViewPressed(_ sender: Any) {
+        delegate?.toggleItemState(sender: self)
+    }
 }

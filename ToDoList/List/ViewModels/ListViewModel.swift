@@ -16,12 +16,21 @@ class ListViewModel : ObservableObject {
     }
     
     private func fetchItems(for list : Title) {
-        let item = Item(name: "Nithya", isCompleted: true, destails: "Hello World!")
+        var item = Item(name: "1", isCompleted: true, details: "Hello World!", isEditing:  false)
         items?.append(item)
-        items?.append(item)
-        items?.append(item)
-        items?.append(item)
-        items?.append(item)
-        items?.append(item)
+        let item1 = Item(name: "2", isCompleted: false, details: "Hello World!", isEditing:  false)
+        items?.append(item1)
+        
+    }
+    
+    func updateItems(items : [Item]){
+        self.items = items
+    }
+    
+    func addNewItem() {
+        
+        let item1 = Item(name: "", isCompleted: false, details: "Hello World!", isEditing : true)
+        items?.append(item1)
+        
     }
 }

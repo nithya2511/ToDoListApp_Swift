@@ -9,7 +9,9 @@ import Foundation
 
 struct Item {
     
-    let name : String
-    let isCompleted : Bool
-    let destails : String? 
+    var name : String
+    var isCompleted : Bool
+    var details : String?
+    var isEditing : Bool
+    
 }
