@@ -120,8 +120,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
-                                    <action selector="addButtonPressed:" destination="rZP-Yd-MdC" eventType="touchUpInside" id="4Kk-3W-euc"/>
-                                    <action selector="addButtonPressed:" destination="iv5-oT-GB6" eventType="touchUpInside" id="9V7-6o-buI"/>
+                                    <action selector="addButtonPressed:" destination="rZP-Yd-MdC" eventType="touchUpInside" id="k60-I1-5wa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -148,7 +147,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFJ-kY-gdh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="iv5-oT-GB6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2121" y="-27"/>
         </scene>

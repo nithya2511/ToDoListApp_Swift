@@ -17,10 +17,11 @@ class TitlesViewController: UIViewController {
     
     //MARK: - Variable Declaration
     private var viewModel = TitlesViewModel()
-    private var titles : [Title]?
+    private var titles : [Title] = []
     private var cancellables = Set<AnyCancellable>()
     private var listViewSegueIdentifier = "showListView"
     private var selectedTitle : Title?
+    private var dataService  = DataService.instance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +49,15 @@ class TitlesViewController: UIViewController {
         if segue.identifier == listViewSegueIdentifier {
             let destVC = segue.destination as! ListViewController
             destVC.title = selectedTitle?.titleName
-            destVC.list = selectedTitle
+            destVC.selectedTitle = selectedTitle
+            destVC.saveDataCompletionHandler = { items in
+                self.selectedTitle?.items = self.dataService.convertToList(itemArray: items)
+                self.viewModel.updateTitles(titles: self.titles)
+            }
         }
     }
+    
+   
     
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
@@ -67,7 +74,8 @@ class TitlesViewController: UIViewController {
         let action = UIAlertAction(title: "Add Category", style: .default) { [weak self] action in
             
             //add new category to category array
-            let newTitle = Title(titleImage:"pencil.line" , titleName: textField.text!, items: [])
+            let newTitle = Title()
+            newTitle.titleName = textField.text!
             self?.viewModel.addNewTitle(newTitle)
             
         }
@@ -81,7 +89,6 @@ class TitlesViewController: UIViewController {
 //MARK: - Table View Data Source methods
 extension TitlesViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let titles {
             if titles.count > 0 {
                 self.tableView.backgroundView = nil
                 return titles.count
@@ -97,16 +104,15 @@ extension TitlesViewController : UITableViewDataSource {
                 
                 return 0
             }
-        } else {
-            return 0
-        }
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "titleCell", for: indexPath) as! TitleTableViewCell
-        cell.titleImageView.image = UIImage(systemName: titles![indexPath.row].titleImage!)
-        cell.titleLabel.text = titles?[indexPath.row].titleName
+        cell.titleImageView.image = UIImage(systemName: titles[indexPath.row].titleImage ?? "pencil.line")
+        cell.titleLabel.text = titles[indexPath.row].titleName
         return cell
     }
     
@@ -116,7 +122,7 @@ extension TitlesViewController : UITableViewDataSource {
 extension TitlesViewController : UITableViewDelegate {
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let titles = titles else {return}
+       
         
         selectedTitle = titles[indexPath.row]
         self.performSegue(withIdentifier: listViewSegueIdentifier, sender: self)
@@ -127,8 +133,8 @@ extension TitlesViewController : UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
             guard let self else {return}
             
-            self.titles?.remove(at: indexPath.row)
-            viewModel.updatetTitles(titles : self.titles!)
+            self.titles.remove(at: indexPath.row)
+            viewModel.updateTitles(titles : self.titles)
             completion(true)
         }
         deleteAction.image = UIImage(systemName: "trash")

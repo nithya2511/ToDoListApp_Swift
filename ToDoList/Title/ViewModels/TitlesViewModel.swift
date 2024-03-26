@@ -6,16 +6,22 @@
 //
 
 import Foundation
+import RealmSwift
 
 class TitlesViewModel : ObservableObject {
     
     @Published var titles : [Title] = []
+    private var dataService = DataService.instance
+    
+    let realm = try! Realm()
     
     init() {
         self.fetchTitles()
     }
     
     private func fetchTitles() {
+        
+        titles = dataService.loadData()
         
 //        let title = Title(titleImage: "heart", titleName: "World", items: [Item]())
 //        self.titles?.append(title)
@@ -25,9 +31,13 @@ class TitlesViewModel : ObservableObject {
     
     func addNewTitle(_ title : Title) {
         self.titles.append(title)
+        dataService.saveData(self.titles)
     }
     
-    func updatetTitles(titles : [Title]) {
+    func updateTitles(titles : [Title]) {
         self.titles = titles
+        dataService.saveData(self.titles)
     }
+    
+    
 }

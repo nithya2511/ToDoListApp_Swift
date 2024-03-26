@@ -16,15 +16,15 @@ class ListViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     
     //MARK: - Variable declaration
-    var list : Title?
+    var selectedTitle : Title?
     private var viewModel : ListViewModel?
-    private var allItems : [Item]?
     private var openItems : [Item]?
     private var closedItems : [Item]?
-    private var curItem : Item?
+    private let openItemSection : Int = 0
+    private let closedItemSection : Int = 1 // Using enum for section number seemed like over-engineering for two permanent sections in a permanent order
     private var cancellables = Set<AnyCancellable>()
-    let openItemSection : Int = 0
-    let closedItemSection : Int = 1 // Using enum for section number seemed like over-engineering for two permanent sections in a permanent order
+    
+    var saveDataCompletionHandler: (([Item]) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +36,9 @@ class ListViewController: UIViewController {
     
     private func setUp() {
         addButton.layer.cornerRadius = 10
-        guard let listName = list else {return}
-        viewModel = ListViewModel(title: listName)
+        guard let listName = selectedTitle else {return}
+        viewModel = ListViewModel()
+        viewModel?.updateItems(items: Array(listName.items))
         self.tableView.register(UINib(nibName: "ItemTableViewCell", bundle: .main), forCellReuseIdentifier: "itemCell")
         self.tableView.register(UINib(nibName: "DetailedItemTableViewCell", bundle: .main), forCellReuseIdentifier: "detailedItemCell")
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
@@ -61,10 +62,9 @@ class ListViewController: UIViewController {
     
     private func bindObservers() {
         self.viewModel?.$items.sink(receiveValue: { [weak self] items  in
-            self?.allItems = items
             self?.openItems = items?.filter({$0.isCompleted == false})
             self?.closedItems = items?.filter({$0.isCompleted == true})
-            //            self?.curItem = items?.filter({$0.isEditing == true}).first
+            self?.saveDataCompletionHandler?(self!.openItems! + self!.closedItems!)
             self?.tableView.reloadData()
         })
         .store(in: &cancellables)
@@ -137,26 +137,6 @@ extension ListViewController : UITableViewDataSource {
             return UITableViewCell()
         }
         
-    }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
-            guard let self else {return}
-            switch indexPath.section {
-            case self.openItemSection :
-                self.openItems?.remove(at: indexPath.row)
-            case self.closedItemSection:
-                self.closedItems?.remove(at: indexPath.row)
-            default: break
-            }
-            
-            viewModel?.updateItems(items: self.openItems! + self.closedItems!)
-            completion(true)
-        }
-        deleteAction.image = UIImage(systemName: "trash")
-        let config = UISwipeActionsConfiguration(actions: [deleteAction])
-        return config
     }
     
     
@@ -254,6 +234,7 @@ extension ListViewController  {
 
 extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewCellDelegate, UIGestureRecognizerDelegate {
    
+    //Hnadle possible index out of bounds here 
     func updateItemData(title: String, details: String, sender: UITableViewCell) {
         if let selectedIndexPath = tableView.indexPath(for: sender) {
             switch selectedIndexPath.section {
@@ -270,53 +251,10 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
             default: break
                 
             }
-            viewModel?.updateItems(items: openItems! + closedItems!)
-        
+            updateItems()
         }
     }
-    
-//    func updateItemName(with itemName: String, sender : UITableViewCell) {
-//        if let selectedIndexPath = tableView.indexPath(for: sender){
-//            switch selectedIndexPath.section {
-//            case openItemSection :
-//                if (openItems?[selectedIndexPath.row]) != nil{
-//                    openItems?[selectedIndexPath.row].name = itemName
-//                    openItems?[selectedIndexPath.row].isEditing = false
-//                }
-//            case closedItemSection :
-//                if (closedItems?[selectedIndexPath.row]) != nil {
-//                    closedItems?[selectedIndexPath.row].name = itemName
-//                    closedItems?[selectedIndexPath.row].isEditing = false
-//                }
-//            default:
-//                break
-//            }
-//        }
-//        viewModel?.updateItems(items: openItems! + closedItems!)
-////        tableView.reloadData()
-//    }
-    
-//    func updateItemDetail(with details: String, sender : UITableViewCell) {
-//        if let selectedIndexPath = tableView.indexPath(for: sender){
-//            switch selectedIndexPath.section {
-//            case openItemSection :
-//                if (openItems?[selectedIndexPath.row]) != nil{
-//                    openItems?[selectedIndexPath.row].details = details
-//                    openItems?[selectedIndexPath.row].isEditing = false
-//                }
-//            case closedItemSection :
-//                if (closedItems?[selectedIndexPath.row]) != nil {
-//                    closedItems?[selectedIndexPath.row].details = details
-//                    closedItems?[selectedIndexPath.row].isEditing = false
-//                }
-//            default:
-//                break
-//            }
-//        }
-//        viewModel?.updateItems(items: openItems! + closedItems!)
-//    }
-//    
-//    
+
     func toggleItemState(sender: UITableViewCell) {
         if let selectedIndexPath = tableView.indexPath(for: sender){
             switch selectedIndexPath.section {
@@ -333,7 +271,13 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
             }
         }
         
-        viewModel?.updateItems(items: openItems! + closedItems!)
+        updateItems()
+    }
+    
+    private func updateItems() {
+        let allItems = openItems! + closedItems!
+        viewModel?.updateItems(items: allItems )
+        
     }
     
     //    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
@@ -341,6 +285,7 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
     //        return false
     //    }
 }
+
 //
 //extension UIViewController {
 //    func hideKeyboardWhenTappedAround() {

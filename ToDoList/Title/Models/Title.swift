@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import RealmSwift
 
-
-struct Title {
+class Title : Object {
     
-    let titleImage : String?
-    let titleName : String 
-    let items : [Item]?
+    @objc dynamic var titleImage : String?
+    @objc dynamic var titleName : String = ""
+    var items = List<Item>()
 }
