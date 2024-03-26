@@ -9,7 +9,7 @@ import Foundation
 
 class TitlesViewModel : ObservableObject {
     
-    @Published var titles : [Title]? = []
+    @Published var titles : [Title] = []
     
     init() {
         self.fetchTitles()
@@ -17,9 +17,17 @@ class TitlesViewModel : ObservableObject {
     
     private func fetchTitles() {
         
-            let title = Title(titleImage: "Hello", titleName: "World")
-            self.titles?.append(title)
-            self.titles?.append(title)
-            self.titles?.append(title)
+//        let title = Title(titleImage: "heart", titleName: "World", items: [Item]())
+//        self.titles?.append(title)
+//        self.titles?.append(title)
+//        self.titles?.append(title)
+    }
+    
+    func addNewTitle(_ title : Title) {
+        self.titles.append(title)
+    }
+    
+    func updatetTitles(titles : [Title]) {
+        self.titles = titles
     }
 }

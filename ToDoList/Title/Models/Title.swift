@@ -7,8 +7,10 @@
 
 import Foundation
 
+
 struct Title {
     
     let titleImage : String?
     let titleName : String 
+    let items : [Item]?
 }

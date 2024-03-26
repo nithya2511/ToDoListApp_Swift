@@ -35,6 +35,7 @@ class ListViewController: UIViewController {
     }
     
     private func setUp() {
+        addButton.layer.cornerRadius = 10
         guard let listName = list else {return}
         viewModel = ListViewModel(title: listName)
         self.tableView.register(UINib(nibName: "ItemTableViewCell", bundle: .main), forCellReuseIdentifier: "itemCell")
@@ -138,6 +139,26 @@ extension ListViewController : UITableViewDataSource {
         
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
+            guard let self else {return}
+            switch indexPath.section {
+            case self.openItemSection :
+                self.openItems?.remove(at: indexPath.row)
+            case self.closedItemSection:
+                self.closedItems?.remove(at: indexPath.row)
+            default: break
+            }
+            
+            viewModel?.updateItems(items: self.openItems! + self.closedItems!)
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        return config
+    }
+    
     
     private func imageForItem(item : Item) -> UIImage {
         
@@ -233,7 +254,7 @@ extension ListViewController  {
 
 extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewCellDelegate, UIGestureRecognizerDelegate {
    
-    func updateItemData(isToggled : Bool, title: String, details: String, sender: UITableViewCell) {
+    func updateItemData(title: String, details: String, sender: UITableViewCell) {
         if let selectedIndexPath = tableView.indexPath(for: sender) {
             switch selectedIndexPath.section {
             case openItemSection:

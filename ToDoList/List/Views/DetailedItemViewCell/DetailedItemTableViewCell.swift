@@ -10,7 +10,7 @@ import UIKit
 protocol DetailedItemTableViewCellDelegate : AnyObject {
     
     func toggleItemState(sender : UITableViewCell)
-    func updateItemData(isToggled : Bool, title : String, details : String, sender : UITableViewCell)
+    func updateItemData(title : String, details : String, sender : UITableViewCell)
 }
 
 class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextViewDelegate {
@@ -31,7 +31,7 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
         self.itemTitleTextField.delegate = self
         self.itemNotesTextView.delegate = self
         self.itemTitleTextField.placeholder = "New To-do Item"
-
+        self.itemTitleTextField.becomeFirstResponder()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -48,24 +48,24 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        itemNotesTextView.becomeFirstResponder()
+        updateValues()
         return false
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         //pass the value to VC
         enteredTitle = textField.text!
-
+        
         
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if (text == "\n") {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if (text == "\n") {
+//            textView.resignFirstResponder()
+//            return false
+//        }
+//        return true
+//    }
     
     func textViewDidEndEditing(_ textView: UITextView) {
        
@@ -75,7 +75,7 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     }
     
     func updateValues() {
-        delegate?.updateItemData(isToggled : isItemToggled,title: enteredTitle, details: enteredDetails, sender: self)
+        delegate?.updateItemData(title: enteredTitle, details: enteredDetails, sender: self)
     }
     
 }

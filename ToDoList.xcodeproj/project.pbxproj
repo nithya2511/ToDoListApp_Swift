@@ -198,6 +198,13 @@
 			path = Title;
 			sourceTree = "<group>";
 		};
+		01BBADD22BB2D60B00FE0E2F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		01E6FC692BAF1C4A003A72C4 = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +228,7 @@
 		01E6FC742BAF1C4A003A72C4 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				01BBADD22BB2D60B00FE0E2F /* Utils */,
 				011842EE2BAF8137009AC059 /* List */,
 				018014752BAF65810080CD22 /* Title */,
 				01E6FC7B2BAF1C4A003A72C4 /* Main.storyboard */,
@@ -267,6 +275,8 @@
 			dependencies = (
 			);
 			name = ToDoList;
+			packageProductDependencies = (
+			);
 			productName = ToDoList;
 			productReference = 01E6FC722BAF1C4A003A72C4 /* ToDoList.app */;
 			productType = "com.apple.product-type.application";
@@ -339,6 +349,8 @@
 				Base,
 			);
 			mainGroup = 01E6FC692BAF1C4A003A72C4;
+			packageReferences = (
+			);
 			productRefGroup = 01E6FC732BAF1C4A003A72C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JAQ-OG-3bR">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -27,8 +28,8 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="100" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6ID-X8-gMY">
-                                <rect key="frame" x="0.0" y="205" width="393" height="563"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="100" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ID-X8-gMY">
+                                <rect key="frame" x="0.0" y="205" width="393" height="613"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="WWX-mZ-3BH"/>
@@ -36,22 +37,27 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmp-Og-0tr">
-                                <rect key="frame" x="0.0" y="778" width="393" height="40"/>
+                                <rect key="frame" x="0.0" y="728" width="393" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQY-Xz-6Iw">
-                                        <rect key="frame" x="288" y="5" width="75" height="30"/>
+                                        <rect key="frame" x="273" y="5" width="70" height="70"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="OxN-Pp-pQz"/>
+                                            <constraint firstAttribute="width" constant="70" id="LJV-b8-sjM"/>
+                                            <constraint firstAttribute="height" constant="70" id="OKc-w7-3Ne"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                        <connections>
+                                            <action selector="addButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="80P-pZ-ESC"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="RQY-Xz-6Iw" secondAttribute="bottom" constant="5" id="DSR-kh-S3I"/>
-                                    <constraint firstAttribute="trailing" secondItem="RQY-Xz-6Iw" secondAttribute="trailing" constant="30" id="XPU-02-xEg"/>
-                                    <constraint firstItem="RQY-Xz-6Iw" firstAttribute="top" secondItem="vmp-Og-0tr" secondAttribute="top" constant="5" id="cFa-Mm-Tfe"/>
+                                    <constraint firstItem="RQY-Xz-6Iw" firstAttribute="centerY" secondItem="vmp-Og-0tr" secondAttribute="centerY" id="bES-88-NJl"/>
+                                    <constraint firstAttribute="height" constant="80" id="bxm-ju-HuF"/>
+                                    <constraint firstAttribute="trailing" secondItem="RQY-Xz-6Iw" secondAttribute="trailing" constant="50" id="fRK-Wi-xjr"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -63,10 +69,10 @@
                             <constraint firstItem="6ID-X8-gMY" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Kd6-RL-ggP"/>
                             <constraint firstItem="6ID-X8-gMY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NJ4-lz-kHy"/>
                             <constraint firstItem="6ID-X8-gMY" firstAttribute="top" secondItem="lVo-KA-3Du" secondAttribute="bottom" constant="10" id="Q5E-hW-87J"/>
+                            <constraint firstItem="vmp-Og-0tr" firstAttribute="top" secondItem="6ID-X8-gMY" secondAttribute="bottom" constant="-90" id="aij-xv-uKU"/>
                             <constraint firstItem="lVo-KA-3Du" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="d9n-uo-ddB"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vmp-Og-0tr" secondAttribute="bottom" id="gLs-A9-l6u"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vmp-Og-0tr" secondAttribute="bottom" constant="10" id="gLs-A9-l6u"/>
                             <constraint firstItem="vmp-Og-0tr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kIB-cO-bw4"/>
-                            <constraint firstItem="vmp-Og-0tr" firstAttribute="top" secondItem="6ID-X8-gMY" secondAttribute="bottom" constant="10" id="yg7-hf-dTe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lVo-KA-3Du" secondAttribute="trailing" symbolic="YES" id="zRC-Kf-kRw"/>
                         </constraints>
                     </view>
@@ -77,6 +83,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="RQY-Xz-6Iw" id="XfN-Y0-djd"/>
                         <outlet property="tableView" destination="6ID-X8-gMY" id="Ssx-cK-8Ll"/>
                         <segue destination="rZP-Yd-MdC" kind="show" identifier="showListView" id="gjP-U1-IHT"/>
                     </connections>
@@ -114,6 +121,7 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
                                     <action selector="addButtonPressed:" destination="rZP-Yd-MdC" eventType="touchUpInside" id="4Kk-3W-euc"/>
+                                    <action selector="addButtonPressed:" destination="iv5-oT-GB6" eventType="touchUpInside" id="9V7-6o-buI"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -140,6 +148,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFJ-kY-gdh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="iv5-oT-GB6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2121" y="-27"/>
         </scene>
@@ -167,6 +176,7 @@
     </scenes>
     <resources>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
