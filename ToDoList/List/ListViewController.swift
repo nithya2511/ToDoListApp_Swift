@@ -36,11 +36,6 @@ class ListViewController: UIViewController {
         bindObservers()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        tableView.becomeFirstResponderTextField()
-    }
-    
     private func setUp() {
         
         addButton.layer.cornerRadius = 35
@@ -303,13 +298,15 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
             
             updateItems()
             
-            do {
-                try self.realm.write {
-                    self.selectedTitle!.items = self.dataService.convertToList(itemArray: openItems)
-                }
-            } catch {
-                print("Error in encoding item array, \(error)")
-            }
+            selectedTitle?.items = self.dataService.convertToList(itemArray: openItems + closedItems)
+//            do {
+//                try self.realm.write {
+//                    self.selectedTitle!.items.removeAll()
+//                    self.selectedTitle!.items.append(objectsIn: self.dataService.convertToList(itemArray: openItems))
+//                }
+//            } catch {
+//                print("Error in encoding item array, \(error)")
+//            }
         }
     }
     
@@ -317,8 +314,6 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
         if let selectedIndexPath = tableView.indexPath(for: sender){
             switch selectedIndexPath.section {
             case openItemSection :
-                print("Row : \(selectedIndexPath.row)")
-                print("Section : \(selectedIndexPath.section)")
                 openItems[selectedIndexPath.row].isCompleted = !openItems[selectedIndexPath.row].isCompleted
             case closedItemSection :
                 closedItems[selectedIndexPath.row].isCompleted = !closedItems[selectedIndexPath.row].isCompleted

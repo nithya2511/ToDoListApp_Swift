@@ -59,7 +59,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <connections>
                 <outlet property="titleImageView" destination="3Xf-iI-ThF" id="9oE-WS-wCB"/>
                 <outlet property="titleLabel" destination="Oyi-Mi-2PP" id="iOt-Mu-Bir"/>

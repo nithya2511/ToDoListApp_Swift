@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+class Constants {
+    
+    static let listViewSegueIdentifier = "showListView"
+    static let titleCell = "titleCell"
+    static let newLine = "\n"
+}

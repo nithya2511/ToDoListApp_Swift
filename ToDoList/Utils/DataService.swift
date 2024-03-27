@@ -26,15 +26,12 @@ class DataService {
     func saveData(_ titleList: [Title]){
         do {
             try realm.write {
+                print("Writing all \(titleList)")
                 realm.add(titleList)
             }
         } catch {
             print("Error while saving Lists \(error)")
         }
-    }
-    
-    func saveItem(_ item : Item) {
-        
     }
     
     func convertToList(itemArray: [Item]) -> List<Item> {

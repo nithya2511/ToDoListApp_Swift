@@ -16,12 +16,8 @@ class ListViewModel : ObservableObject {
     }
     
     func addNewItem() {
-        
         let newItem = Item()
         newItem.isEditing = true
         items?.append(newItem)
-        
     }
-    
-    
 }
