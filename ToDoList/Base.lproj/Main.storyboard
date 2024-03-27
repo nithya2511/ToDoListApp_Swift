@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -25,12 +26,13 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="hxE-ax-9Ta"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="SecondaryColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="100" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ID-X8-gMY">
-                                <rect key="frame" x="0.0" y="205" width="393" height="613"/>
+                                <rect key="frame" x="0.0" y="205" width="393" height="523"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="WWX-mZ-3BH"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="9ug-Y7-6Iu"/>
@@ -41,13 +43,15 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQY-Xz-6Iw">
                                         <rect key="frame" x="273" y="5" width="70" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="PrimaryColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="LJV-b8-sjM"/>
                                             <constraint firstAttribute="height" constant="70" id="OKc-w7-3Ne"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system">
+                                            <color key="baseForegroundColor" name="InversePrimary"/>
+                                        </buttonConfiguration>
                                         <connections>
                                             <action selector="addButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="80P-pZ-ESC"/>
                                         </connections>
@@ -69,7 +73,7 @@
                             <constraint firstItem="6ID-X8-gMY" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Kd6-RL-ggP"/>
                             <constraint firstItem="6ID-X8-gMY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NJ4-lz-kHy"/>
                             <constraint firstItem="6ID-X8-gMY" firstAttribute="top" secondItem="lVo-KA-3Du" secondAttribute="bottom" constant="10" id="Q5E-hW-87J"/>
-                            <constraint firstItem="vmp-Og-0tr" firstAttribute="top" secondItem="6ID-X8-gMY" secondAttribute="bottom" constant="-90" id="aij-xv-uKU"/>
+                            <constraint firstItem="vmp-Og-0tr" firstAttribute="top" secondItem="6ID-X8-gMY" secondAttribute="bottom" id="aij-xv-uKU"/>
                             <constraint firstItem="lVo-KA-3Du" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="d9n-uo-ddB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vmp-Og-0tr" secondAttribute="bottom" constant="10" id="gLs-A9-l6u"/>
                             <constraint firstItem="vmp-Og-0tr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kIB-cO-bw4"/>
@@ -79,7 +83,7 @@
                     <navigationItem key="navigationItem" title="Todoey" largeTitleDisplayMode="always" id="JQg-oi-EiG">
                         <barButtonItem key="rightBarButtonItem" id="M2A-Yy-HeY">
                             <imageReference key="image" image="person.circle.fill" catalog="system" symbolScale="large"/>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" name="PrimaryColor"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -101,43 +105,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQW-kZ-xxJ">
-                                <rect key="frame" x="0.0" y="788" width="393" height="30"/>
+                                <rect key="frame" x="0.0" y="728" width="393" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79Z-sw-lfb">
+                                        <rect key="frame" x="273" y="5" width="70" height="70"/>
+                                        <color key="backgroundColor" name="PrimaryColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="jMp-Sq-PLr"/>
+                                            <constraint firstAttribute="height" constant="70" id="pdi-Ba-l0L"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system">
+                                            <color key="baseForegroundColor" name="InversePrimary"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="addButtonPressed:" destination="rZP-Yd-MdC" eventType="touchUpInside" id="k60-I1-5wa"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="79Z-sw-lfb" secondAttribute="trailing" constant="50" id="1zO-gK-u65"/>
+                                    <constraint firstItem="79Z-sw-lfb" firstAttribute="centerY" secondItem="MQW-kZ-xxJ" secondAttribute="centerY" id="KNA-WS-QLT"/>
+                                    <constraint firstAttribute="height" constant="80" id="huU-2G-5Dv"/>
+                                </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wFJ-7v-SuX">
-                                <rect key="frame" x="0.0" y="189" width="393" height="589"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="65" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wFJ-7v-SuX">
+                                <rect key="frame" x="0.0" y="189" width="393" height="539"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="dataSource" destination="rZP-Yd-MdC" id="gbm-H9-2OY"/>
                                     <outlet property="delegate" destination="rZP-Yd-MdC" id="qkf-Yp-hzh"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79Z-sw-lfb">
-                                <rect key="frame" x="288" y="783" width="75" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="xnX-3Y-hDE"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                <connections>
-                                    <action selector="addButtonPressed:" destination="rZP-Yd-MdC" eventType="touchUpInside" id="k60-I1-5wa"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gEn-bh-OxM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="79Z-sw-lfb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gEn-bh-OxM" secondAttribute="leading" symbolic="YES" id="93E-ab-Gy1"/>
                             <constraint firstItem="wFJ-7v-SuX" firstAttribute="leading" secondItem="gEn-bh-OxM" secondAttribute="leading" id="Biu-4F-3XB"/>
                             <constraint firstItem="MQW-kZ-xxJ" firstAttribute="leading" secondItem="gEn-bh-OxM" secondAttribute="leading" id="CRG-Sk-8pp"/>
                             <constraint firstItem="gEn-bh-OxM" firstAttribute="trailing" secondItem="MQW-kZ-xxJ" secondAttribute="trailing" id="NN3-kP-SX8"/>
                             <constraint firstItem="gEn-bh-OxM" firstAttribute="trailing" secondItem="wFJ-7v-SuX" secondAttribute="trailing" id="OPv-nm-x0R"/>
-                            <constraint firstItem="gEn-bh-OxM" firstAttribute="bottom" secondItem="79Z-sw-lfb" secondAttribute="bottom" constant="5" id="T3y-d7-L3m"/>
-                            <constraint firstItem="MQW-kZ-xxJ" firstAttribute="bottom" secondItem="gEn-bh-OxM" secondAttribute="bottom" id="Tdh-6r-AGi"/>
-                            <constraint firstItem="79Z-sw-lfb" firstAttribute="top" secondItem="wFJ-7v-SuX" secondAttribute="bottom" constant="5" id="WyB-cX-Cio"/>
-                            <constraint firstItem="gEn-bh-OxM" firstAttribute="trailing" secondItem="79Z-sw-lfb" secondAttribute="trailing" constant="30" id="Xt2-Jy-Zss"/>
+                            <constraint firstItem="MQW-kZ-xxJ" firstAttribute="bottom" secondItem="gEn-bh-OxM" secondAttribute="bottom" constant="-10" id="Tdh-6r-AGi"/>
                             <constraint firstItem="wFJ-7v-SuX" firstAttribute="top" secondItem="gEn-bh-OxM" secondAttribute="top" id="glR-VL-mcU"/>
-                            <constraint firstItem="MQW-kZ-xxJ" firstAttribute="top" secondItem="wFJ-7v-SuX" secondAttribute="bottom" constant="10" id="sk2-sh-w9t"/>
+                            <constraint firstItem="MQW-kZ-xxJ" firstAttribute="top" secondItem="wFJ-7v-SuX" secondAttribute="bottom" id="sk2-sh-w9t"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="List" prompt=" " id="8Ru-fb-vjw"/>
@@ -148,7 +160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFJ-kY-gdh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2121" y="-27"/>
+            <point key="canvasLocation" x="1960" y="-27"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oF2-Sm-XfK">
@@ -158,6 +170,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="1tp-wx-rVN">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" name="PrimaryColor"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x3i-2c-ZLz">
@@ -175,6 +190,15 @@
     <resources>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <namedColor name="InversePrimary">
+            <color red="0.95686274509803915" green="0.93333333333333335" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="PrimaryColor">
+            <color red="0.22400000691413879" green="0.21199999749660492" blue="0.27500000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="SecondaryColor">
+            <color red="0.31000000238418579" green="0.27099999785423279" blue="0.34099999070167542" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

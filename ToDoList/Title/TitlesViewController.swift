@@ -35,6 +35,8 @@ class TitlesViewController: UIViewController {
         addButton.layer.cornerRadius = 35 // change this to dynamic change
         self.tableView.register(UINib(nibName: "TitleTableViewCell", bundle: .main), forCellReuseIdentifier: "titleCell")
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        
+        addButton.dropShadow()
     }
     
     private func bindObservers() {
@@ -111,7 +113,7 @@ extension TitlesViewController : UITableViewDataSource {
         
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "titleCell", for: indexPath) as! TitleTableViewCell
-        cell.titleImageView.image = UIImage(systemName: titles[indexPath.row].titleImage ?? "pencil.line")
+        cell.titleImageView.image = UIImage(systemName: titles[indexPath.row].titleImage ?? "list.clipboard")
         cell.titleLabel.text = titles[indexPath.row].titleName
         return cell
     }

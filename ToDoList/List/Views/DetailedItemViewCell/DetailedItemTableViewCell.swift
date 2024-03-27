@@ -20,6 +20,7 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     @IBOutlet weak var itemTitleTextField: UITextField!
     @IBOutlet weak var itemNotesTextView: UITextView!
     
+    @IBOutlet weak var stackView: UIStackView!
     weak var delegate : DetailedItemTableViewCellDelegate?
     
     var enteredTitle : String = "New Item"
@@ -28,6 +29,10 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.contentView.layer.cornerRadius = 10
+        self.contentView.layer.masksToBounds = true
+        self.stackView.dropShadow()
         self.itemTitleTextField.delegate = self
         self.itemNotesTextView.delegate = self
         self.itemTitleTextField.placeholder = "New To-do Item"
@@ -55,7 +60,7 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     func textFieldDidEndEditing(_ textField: UITextField) {
         //pass the value to VC
         enteredTitle = textField.text!
-        
+        updateValues()
         
     }
     

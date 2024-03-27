@@ -2,7 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,23 +21,24 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQp-zU-aTa">
-                        <rect key="frame" x="29.999999999999986" y="0.0" width="233.66666666666663" height="100"/>
+                        <rect key="frame" x="29.999999999999986" y="0.0" width="233.66666666666663" height="40"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pencil.line" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="3Xf-iI-ThF">
-                                <rect key="frame" x="0.0" y="6.3333333333333357" width="50" height="87.666666666666657"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Xf-iI-ThF">
+                                <rect key="frame" x="0.0" y="4.9999999999999964" width="30" height="28.666666666666675"/>
+                                <color key="tintColor" name="PrimaryColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="2oJ-f7-f1J"/>
-                                    <constraint firstAttribute="width" constant="50" id="UUB-oh-NPS"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="2oJ-f7-f1J"/>
+                                    <constraint firstAttribute="height" constant="30" id="jFb-hi-c8V"/>
                                 </constraints>
+                                <imageReference key="image" image="list.clipboard" catalog="system" symbolScale="small"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oyi-Mi-2PP">
-                                <rect key="frame" x="65" y="39.666666666666664" width="100" height="21"/>
+                                <rect key="frame" x="45" y="9.6666666666666643" width="100" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="XdF-M2-gdi"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" name="PrimaryColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -45,6 +49,7 @@
                             <constraint firstItem="Oyi-Mi-2PP" firstAttribute="leading" secondItem="3Xf-iI-ThF" secondAttribute="trailing" constant="15" id="Lst-uY-9j0"/>
                             <constraint firstItem="Oyi-Mi-2PP" firstAttribute="centerY" secondItem="pQp-zU-aTa" secondAttribute="centerY" id="PGN-i0-V00"/>
                             <constraint firstItem="3Xf-iI-ThF" firstAttribute="top" secondItem="pQp-zU-aTa" secondAttribute="top" constant="5" id="jd0-5k-feY"/>
+                            <constraint firstItem="3Xf-iI-ThF" firstAttribute="centerY" secondItem="pQp-zU-aTa" secondAttribute="centerY" id="or7-VO-MYB"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -56,6 +61,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="titleImageView" destination="3Xf-iI-ThF" id="9oE-WS-wCB"/>
                 <outlet property="titleLabel" destination="Oyi-Mi-2PP" id="iOt-Mu-Bir"/>
@@ -64,7 +70,10 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="pencil.line" catalog="system" width="128" height="117"/>
+        <image name="list.clipboard" catalog="system" width="98" height="128"/>
+        <namedColor name="PrimaryColor">
+            <color red="0.22400000691413879" green="0.21199999749660492" blue="0.27500000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

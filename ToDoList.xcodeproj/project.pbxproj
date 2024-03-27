@@ -18,6 +18,8 @@
 		011842FE2BAF9562009AC059 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011842FB2BAF9562009AC059 /* ItemTableViewCell.swift */; };
 		011843022BB071F8009AC059 /* DetailedItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 011843012BB071F8009AC059 /* DetailedItemTableViewCell.xib */; };
 		011843032BB071F8009AC059 /* DetailedItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011843002BB071F8009AC059 /* DetailedItemTableViewCell.swift */; };
+		01A902322BB328E2002C0C05 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A902312BB328E2002C0C05 /* Color.swift */; };
+		01A902342BB3638E002C0C05 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A902332BB3638E002C0C05 /* View.swift */; };
 		01BBADDA2BB2E5E500FE0E2F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 01BBADD92BB2E5E500FE0E2F /* Realm */; };
 		01BBADDC2BB2E5E500FE0E2F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 01BBADDB2BB2E5E500FE0E2F /* RealmSwift */; };
 		01BBADDF2BB2EE0A00FE0E2F /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BBADDE2BB2EE0A00FE0E2F /* DataService.swift */; };
@@ -61,6 +63,8 @@
 		011842FC2BAF9562009AC059 /* ItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemTableViewCell.xib; sourceTree = "<group>"; };
 		011843002BB071F8009AC059 /* DetailedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedItemTableViewCell.swift; sourceTree = "<group>"; };
 		011843012BB071F8009AC059 /* DetailedItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailedItemTableViewCell.xib; sourceTree = "<group>"; };
+		01A902312BB328E2002C0C05 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		01A902332BB3638E002C0C05 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		01BBADDE2BB2EE0A00FE0E2F /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		01E6FC722BAF1C4A003A72C4 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01E6FC752BAF1C4A003A72C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +206,15 @@
 			path = Title;
 			sourceTree = "<group>";
 		};
+		01A902302BB328CB002C0C05 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				01A902312BB328E2002C0C05 /* Color.swift */,
+				01A902332BB3638E002C0C05 /* View.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		01BBADDD2BB2EDF800FE0E2F /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +246,7 @@
 		01E6FC742BAF1C4A003A72C4 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				01A902302BB328CB002C0C05 /* Extensions */,
 				01BBADDD2BB2EDF800FE0E2F /* Services */,
 				011842EE2BAF8137009AC059 /* List */,
 				018014752BAF65810080CD22 /* Title */,
@@ -408,6 +422,7 @@
 				011842ED2BAF6CF9009AC059 /* Title.swift in Sources */,
 				011842F72BAF9105009AC059 /* Item.swift in Sources */,
 				01BBADDF2BB2EE0A00FE0E2F /* DataService.swift in Sources */,
+				01A902322BB328E2002C0C05 /* Color.swift in Sources */,
 				01E6FCAB2BAF227F003A72C4 /* TitlesViewController.swift in Sources */,
 				011843032BB071F8009AC059 /* DetailedItemTableViewCell.swift in Sources */,
 				011842EB2BAF6CEC009AC059 /* TitlesViewModel.swift in Sources */,
@@ -415,6 +430,7 @@
 				01E6FC782BAF1C4A003A72C4 /* SceneDelegate.swift in Sources */,
 				011842E62BAF6A09009AC059 /* TitleTableViewCell.swift in Sources */,
 				011842F22BAF8165009AC059 /* ListViewController.swift in Sources */,
+				01A902342BB3638E002C0C05 /* View.swift in Sources */,
 				011842FE2BAF9562009AC059 /* ItemTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
