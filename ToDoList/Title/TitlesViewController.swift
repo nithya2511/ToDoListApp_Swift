@@ -7,6 +7,8 @@
 
 import UIKit
 import Combine
+import RealmSwift
+import RealmSwift
 
 
 class TitlesViewController: UIViewController {
@@ -22,12 +24,14 @@ class TitlesViewController: UIViewController {
     private var listViewSegueIdentifier = "showListView"
     private var selectedTitle : Title?
     private var dataService  = DataService.instance
+    let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
         setUp()
         bindObservers()
+        print("Realm is located at:", realm.configuration.fileURL!)
         
     }
     
@@ -53,8 +57,18 @@ class TitlesViewController: UIViewController {
             destVC.title = selectedTitle?.titleName
             destVC.selectedTitle = selectedTitle
             destVC.saveDataCompletionHandler = { items in
-                self.selectedTitle?.items = self.dataService.convertToList(itemArray: items)
-                self.viewModel.updateTitles(titles: self.titles)
+                
+                do {
+                    try self.realm.write {
+//                        self.selectedTitle?.items = self.dataService.convertToList(itemArray: items)
+//                        self.viewModel.updateTitles(titles: self.titles)
+                    }
+                } catch {
+                    print("Error in encoding items \(error)")
+                }
+               
+               
+            self.dataService.saveData(self.titles)
             }
         }
     }
@@ -127,6 +141,7 @@ extension TitlesViewController : UITableViewDelegate {
        
         
         selectedTitle = titles[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
         self.performSegue(withIdentifier: listViewSegueIdentifier, sender: self)
     }
     

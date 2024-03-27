@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6SS-rc-L9C">
-                                        <rect key="frame" x="0.0" y="5" width="30" height="30"/>
+                                        <rect key="frame" x="0.0" y="7.6666666666666679" width="30" height="30.000000000000004"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Op7-38-csX"/>
                                             <constraint firstAttribute="width" constant="30" id="eSR-wJ-q7B"/>
@@ -49,13 +49,13 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="7d1-hk-ybO"/>
                                     <constraint firstItem="SIn-TW-bEH" firstAttribute="leading" secondItem="6SS-rc-L9C" secondAttribute="trailing" constant="15" id="DwO-TS-dbx"/>
-                                    <constraint firstItem="6SS-rc-L9C" firstAttribute="top" secondItem="CcB-Vn-BV1" secondAttribute="top" constant="5" id="O7K-1C-3l8"/>
                                     <constraint firstItem="6SS-rc-L9C" firstAttribute="leading" secondItem="CcB-Vn-BV1" secondAttribute="leading" id="V7V-k8-dPk"/>
                                     <constraint firstItem="SIn-TW-bEH" firstAttribute="centerY" secondItem="CcB-Vn-BV1" secondAttribute="centerY" id="VaQ-Hc-reo"/>
+                                    <constraint firstItem="6SS-rc-L9C" firstAttribute="centerY" secondItem="CcB-Vn-BV1" secondAttribute="centerY" id="Xgz-Jh-mGn"/>
                                     <constraint firstAttribute="trailing" secondItem="SIn-TW-bEH" secondAttribute="trailing" constant="5" id="alh-3b-65G"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9lr-cN-eGc">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9lr-cN-eGc" customClass="RSKPlaceholderTextView" customModule="RSKPlaceholderTextView">
                                 <rect key="frame" x="0.0" y="45" width="320" height="85"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -81,7 +81,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="itemImageView" destination="6SS-rc-L9C" id="En7-52-Eg1"/>
-                <outlet property="itemNotesTextView" destination="9lr-cN-eGc" id="4KU-OC-NtJ"/>
+                <outlet property="itemNotesTextView" destination="9lr-cN-eGc" id="Ok5-cz-rgh"/>
                 <outlet property="itemTitleTextField" destination="SIn-TW-bEH" id="Gda-WL-Jvz"/>
                 <outlet property="stackView" destination="uqq-9d-7Rt" id="Epf-nQ-hN5"/>
             </connections>

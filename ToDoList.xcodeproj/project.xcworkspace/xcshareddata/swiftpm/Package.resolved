@@ -1,5 +1,5 @@
 {
-  "originHash" : "182db11c87d1734fe53a6366b674339f70901a93290bd85def29b63e25e34c43",
+  "originHash" : "d356e878c82405cb0d3a4816ee94c341b7c0254e33a7a4101499cb91d05528c3",
   "pins" : [
     {
       "identity" : "realm-core",
@@ -17,6 +17,24 @@
       "state" : {
         "branch" : "master",
         "revision" : "d1906cd285486e60d7d9e5bbde57c6ab9822da8e"
+      }
+    },
+    {
+      "identity" : "rskplaceholdertextview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ruslanskorb/RSKPlaceholderTextView.git",
+      "state" : {
+        "revision" : "e10548ab6b9f848e95f4a8edd1083d6894261144",
+        "version" : "8.0.0"
+      }
+    },
+    {
+      "identity" : "sttextview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onl1ner/STTextView.git",
+      "state" : {
+        "revision" : "f414d0e74d7862a601549774f58307017c1f5cb4",
+        "version" : "1.1.3"
       }
     }
   ],

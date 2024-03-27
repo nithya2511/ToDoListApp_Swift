@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RSKPlaceholderTextView
 
 protocol DetailedItemTableViewCellDelegate : AnyObject {
     
@@ -18,7 +19,7 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     
     @IBOutlet weak var itemImageView: UIButton!
     @IBOutlet weak var itemTitleTextField: UITextField!
-    @IBOutlet weak var itemNotesTextView: UITextView!
+    @IBOutlet weak var itemNotesTextView: RSKPlaceholderTextView!
     
     @IBOutlet weak var stackView: UIStackView!
     weak var delegate : DetailedItemTableViewCellDelegate?
@@ -36,7 +37,10 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
         self.itemTitleTextField.delegate = self
         self.itemNotesTextView.delegate = self
         self.itemTitleTextField.placeholder = "New To-do Item"
-        self.itemTitleTextField.becomeFirstResponder()
+        self.itemNotesTextView.placeholder = "Add Notes"
+        self.itemNotesTextView.placeholderColor = UIColor.lightGray
+        enteredTitle = ""
+        enteredDetails = ""
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -52,7 +56,8 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+//        textField.resignFirstResponder()
+        enteredTitle = textField.text!
         updateValues()
         return false
     }
@@ -60,27 +65,29 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     func textFieldDidEndEditing(_ textField: UITextField) {
         //pass the value to VC
         enteredTitle = textField.text!
-        updateValues()
+//        updateValues()
         
     }
-    
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if (text == "\n") {
-//            textView.resignFirstResponder()
-//            return false
-//        }
-//        return true
-//    }
     
     func textViewDidEndEditing(_ textView: UITextView) {
        
         enteredDetails = textView.text
-        itemNotesTextView.resignFirstResponder()
-        updateValues()
+//        itemNotesTextView.resignFirstResponder()
+//        updateValues()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+//            textView.resignFirstResponder()
+            enteredDetails = textView.text
+            updateValues()
+            return false
+        }
+        return true
     }
     
     func updateValues() {
         delegate?.updateItemData(title: enteredTitle, details: enteredDetails, sender: self)
     }
-    
+
 }

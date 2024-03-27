@@ -22,11 +22,6 @@ class TitlesViewModel : ObservableObject {
     private func fetchTitles() {
         
         titles = dataService.loadData()
-        
-//        let title = Title(titleImage: "heart", titleName: "World", items: [Item]())
-//        self.titles?.append(title)
-//        self.titles?.append(title)
-//        self.titles?.append(title)
     }
     
     func addNewTitle(_ title : Title) {

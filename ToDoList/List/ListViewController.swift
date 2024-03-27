@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import RealmSwift
 
 
 class ListViewController: UIViewController {
@@ -23,6 +24,8 @@ class ListViewController: UIViewController {
     private let openItemSection : Int = 0
     private let closedItemSection : Int = 1 // Using enum for section number seemed like over-engineering for two permanent sections in a permanent order
     private var cancellables = Set<AnyCancellable>()
+    let realm = try! Realm()
+    let dataService = DataService.instance
     
     var saveDataCompletionHandler: (([Item]) -> ())?
     
@@ -31,10 +34,15 @@ class ListViewController: UIViewController {
         
         setUp()
         bindObservers()
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.becomeFirstResponderTextField()
     }
     
     private func setUp() {
+        
         addButton.layer.cornerRadius = 35
         guard let listName = selectedTitle else {return}
         viewModel = ListViewModel()
@@ -42,56 +50,47 @@ class ListViewController: UIViewController {
         self.tableView.register(UINib(nibName: "ItemTableViewCell", bundle: .main), forCellReuseIdentifier: "itemCell")
         self.tableView.register(UINib(nibName: "DetailedItemTableViewCell", bundle: .main), forCellReuseIdentifier: "detailedItemCell")
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
-//        self.view.isUserInteractionEnabled = true
-//        tableView.backgroundView = UIView()
-//        tap.cancelsTouchesInView = false
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
 //        tap.delegate = self
-       
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
-        tap.delegate = self
-        
-        self.tableView.addGestureRecognizer(tap)
+//        
+//        self.tableView.addGestureRecognizer(tap)
         
         addButton.dropShadow()
-//        self.hideKeyboardWhenTappedAround()
+        //        self.hideKeyboardWhenTappedAround()
     }
     
     @objc private func backgroundTapped() {
-        
-        
-        for (i,_) in openItems.enumerated(){
-            openItems[i].isEditing = false
+
+        for item in openItems {
+            item.isEditing = false
         }
         
-        for (i,_) in closedItems.enumerated(){
-            closedItems[i].isEditing = false
+        for item in closedItems {
+            item.isEditing = false
         }
+    
         tableView.reloadData()
         view.endEditing(true)
     }
-    
-    
+
     private func bindObservers() {
         self.viewModel?.$items.sink(receiveValue: { [weak self] items  in
             guard let self,
                   let items else { return }
             self.openItems = items.filter({$0.isCompleted == false})
             self.closedItems = items.filter({$0.isCompleted == true})
-            self.saveDataCompletionHandler?(self.openItems + self.closedItems)
+//            self.saveDataCompletionHandler?(self.openItems + self.closedItems)
+
             self.tableView.reloadData()
         })
         .store(in: &cancellables)
-        
     }
     
-    
     @IBAction func addButtonPressed(_ sender: UIButton) {
-        
         stopEditing()
         viewModel?.addNewItem()
     }
-    
 }
 
 extension ListViewController : UITableViewDataSource {
@@ -101,7 +100,6 @@ extension ListViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if (openItems + closedItems).count > 0 {
             self.tableView.backgroundView = nil
             switch section {
@@ -112,7 +110,6 @@ extension ListViewController : UITableViewDataSource {
             default:
                 return 0 // Should never reach here
             }
-            
         }
         else {
             let imageView = UIImageView(image: UIImage(systemName: "text.badge.plus"))
@@ -121,23 +118,24 @@ extension ListViewController : UITableViewDataSource {
             
             imageView.layer.opacity = 0.2
             self.tableView.backgroundView = imageView
-            
-            
+
             return 0
         }
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
         switch indexPath.section {
-        case openItemSection :
+        case openItemSection:
             if openItems[indexPath.row].isEditing == true {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "detailedItemCell", for: indexPath) as! DetailedItemTableViewCell
                 cell.itemImageView.setImage(imageForItem(item: openItems[indexPath.row]), for: .normal)
                 cell.itemTitleTextField.text = openItems[indexPath.row].name
                 cell.itemNotesTextView.text = openItems[indexPath.row].details
+                cell.enteredTitle = openItems[indexPath.row].name
+                cell.enteredDetails = openItems[indexPath.row].details ?? ""
+                cell.itemTitleTextField.becomeFirstResponder()
+
                 cell.delegate = self
                 return cell
             } else {
@@ -148,7 +146,7 @@ extension ListViewController : UITableViewDataSource {
                 return cell
             }
             
-        case closedItemSection :
+        case closedItemSection:
             if closedItems[indexPath.row].isEditing == true {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "detailedItemCell", for: indexPath) as! DetailedItemTableViewCell
                 cell.delegate = self
@@ -302,7 +300,16 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
             default: break
                 
             }
+            
             updateItems()
+            
+            do {
+                try self.realm.write {
+                    self.selectedTitle!.items = self.dataService.convertToList(itemArray: openItems)
+                }
+            } catch {
+                print("Error in encoding item array, \(error)")
+            }
         }
     }
     
@@ -310,6 +317,8 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
         if let selectedIndexPath = tableView.indexPath(for: sender){
             switch selectedIndexPath.section {
             case openItemSection :
+                print("Row : \(selectedIndexPath.row)")
+                print("Section : \(selectedIndexPath.section)")
                 openItems[selectedIndexPath.row].isCompleted = !openItems[selectedIndexPath.row].isCompleted
             case closedItemSection :
                 closedItems[selectedIndexPath.row].isCompleted = !closedItems[selectedIndexPath.row].isCompleted
@@ -327,22 +336,19 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
         
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        
-        let location = touch.location(in: self.tableView)
-            let path = self.tableView.indexPathForRow(at: location)
-            if let indexPathForRow = path {
-//                self.tableView(self.tableView, didSelectRowAt: indexPathForRow)
-                return false
-            } else {
-                // handle tap on empty space below existing rows however you want
-                print("here")
-                return true
-            }
-    }
-//    
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return gestureRecognizer.view == tableView
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+//        
+//        let location = touch.location(in: self.tableView)
+//        let path = self.tableView.indexPathForRow(at: location)
+//        if let indexPathForRow = path {
+//                            self.tableView(self.tableView, didSelectRowAt: indexPathForRow)
+//            print("In if ")
+//            return true
+//        } else {
+//            // handle tap on empty space below existing rows however you want
+//            print("here")
+//            return true
+//        }
 //    }
 }
 
@@ -353,10 +359,22 @@ extension UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-    
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension UITableView {
+    func becomeFirstResponderTextField() {
+    outer: for cell in visibleCells {
+        for view in cell.contentView.subviews {
+            if let textfield = view as? UITextField {
+                textfield.becomeFirstResponder()
+                break outer
+            }
+        }
+    }
     }
 }
 
