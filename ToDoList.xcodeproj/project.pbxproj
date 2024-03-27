@@ -206,6 +206,7 @@
 		018014752BAF65810080CD22 /* Title */ = {
 			isa = PBXGroup;
 			children = (
+				01E6FCAA2BAF227F003A72C4 /* TitlesViewController.swift */,
 				011842E92BAF6CC2009AC059 /* Views */,
 				011842E82BAF6CAF009AC059 /* Models */,
 				011842E72BAF6CA6009AC059 /* ViewModels */,
@@ -256,7 +257,6 @@
 			isa = PBXGroup;
 			children = (
 				018014752BAF65810080CD22 /* Title */,
-				01E6FCAA2BAF227F003A72C4 /* TitlesViewController.swift */,
 				011842EE2BAF8137009AC059 /* List */,
 				01A902302BB328CB002C0C05 /* Extensions */,
 				01BBADDD2BB2EDF800FE0E2F /* Utils */,
