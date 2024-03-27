@@ -44,8 +44,9 @@ class TitlesViewController: UIViewController {
     
     private func bindObservers() {
         self.viewModel.$titles.sink { [weak self] titles in
-            self?.titles = titles
-            self?.tableView.reloadData()
+            guard let self else {return}
+            self.titles = titles
+            self.tableView.reloadData()
         }
         .store(in: &cancellables)
     }
@@ -71,7 +72,7 @@ class TitlesViewController: UIViewController {
         }
         let action = UIAlertAction(title: "Add Title", style: .cancel) { [weak self] action in
             let newTitle = Title()
-            newTitle.titleName = textField.text!
+            newTitle.titleName = textField.text ?? ""
             self?.viewModel.addNewTitle(newTitle)
         }
         

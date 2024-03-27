@@ -33,40 +33,25 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         
         setUp()
+        loadListItemData()
         bindObservers()
     }
     
     private func setUp() {
+        //Table View
+        self.tableView.register(UINib(nibName: "ItemTableViewCell", bundle: .main), forCellReuseIdentifier: Constants.itemCell)
+        self.tableView.register(UINib(nibName: "DetailedItemTableViewCell", bundle: .main), forCellReuseIdentifier: Constants.detailedItemCell)
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
         
-        addButton.layer.cornerRadius = 35
+        //Add button
+        addButton.layer.cornerRadius = addButton.frame.width / 2
+        addButton.dropShadow()
+    }
+    
+    private func loadListItemData() {
         guard let listName = selectedTitle else {return}
         viewModel = ListViewModel()
         viewModel?.updateItems(items: Array(listName.items))
-        self.tableView.register(UINib(nibName: "ItemTableViewCell", bundle: .main), forCellReuseIdentifier: "itemCell")
-        self.tableView.register(UINib(nibName: "DetailedItemTableViewCell", bundle: .main), forCellReuseIdentifier: "detailedItemCell")
-        self.tableView.estimatedRowHeight = UITableView.automaticDimension
-        
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
-//        tap.delegate = self
-//        
-//        self.tableView.addGestureRecognizer(tap)
-        
-        addButton.dropShadow()
-        //        self.hideKeyboardWhenTappedAround()
-    }
-    
-    @objc private func backgroundTapped() {
-
-        for item in openItems {
-            item.isEditing = false
-        }
-        
-        for item in closedItems {
-            item.isEditing = false
-        }
-    
-        tableView.reloadData()
-        view.endEditing(true)
     }
 
     private func bindObservers() {
@@ -75,8 +60,6 @@ class ListViewController: UIViewController {
                   let items else { return }
             self.openItems = items.filter({$0.isCompleted == false})
             self.closedItems = items.filter({$0.isCompleted == true})
-//            self.saveDataCompletionHandler?(self.openItems + self.closedItems)
-
             self.tableView.reloadData()
         })
         .store(in: &cancellables)
@@ -88,6 +71,7 @@ class ListViewController: UIViewController {
     }
 }
 
+//MARK: - TableView Data Source
 extension ListViewController : UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -103,38 +87,30 @@ extension ListViewController : UITableViewDataSource {
             case closedItemSection :
                 return closedItems.count
             default:
-                return 0 // Should never reach here
+                return 0
             }
         }
         else {
-            let imageView = UIImageView(image: UIImage(systemName: "text.badge.plus"))
-            imageView.contentMode = .center
-            imageView.transform = imageView.transform.scaledBy(x: 5, y: 5)
-            
-            imageView.layer.opacity = 0.2
-            self.tableView.backgroundView = imageView
-
+            self.tableView.backgroundView = Helper.instance.emptyTableViewBGImage()
             return 0
         }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case openItemSection:
             if openItems[indexPath.row].isEditing == true {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "detailedItemCell", for: indexPath) as! DetailedItemTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: Constants.detailedItemCell, for: indexPath) as! DetailedItemTableViewCell
                 cell.itemImageView.setImage(imageForItem(item: openItems[indexPath.row]), for: .normal)
                 cell.itemTitleTextField.text = openItems[indexPath.row].name
                 cell.itemNotesTextView.text = openItems[indexPath.row].details
                 cell.enteredTitle = openItems[indexPath.row].name
                 cell.enteredDetails = openItems[indexPath.row].details ?? ""
                 cell.itemTitleTextField.becomeFirstResponder()
-
                 cell.delegate = self
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ItemTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: Constants.itemCell, for: indexPath) as! ItemTableViewCell
                 cell.itemImageView.setImage(imageForItem(item: openItems[indexPath.row]), for: .normal)
                 cell.itemNameLabel.text = openItems[indexPath.row].name
                 cell.delegate = self
@@ -143,33 +119,34 @@ extension ListViewController : UITableViewDataSource {
             
         case closedItemSection:
             if closedItems[indexPath.row].isEditing == true {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "detailedItemCell", for: indexPath) as! DetailedItemTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: Constants.detailedItemCell, for: indexPath) as! DetailedItemTableViewCell
                 cell.delegate = self
                 cell.itemTitleTextField.text = closedItems[indexPath.row].name
                 cell.itemNotesTextView.text = closedItems[indexPath.row].details
                 cell.itemImageView.setImage(imageForItem(item: closedItems[indexPath.row]), for: .normal)
+                cell.enteredTitle = closedItems[indexPath.row].name
+                cell.enteredDetails = closedItems[indexPath.row].details ?? ""
+                cell.itemTitleTextField.becomeFirstResponder()
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ItemTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: Constants.itemCell, for: indexPath) as! ItemTableViewCell
                 cell.itemImageView.setImage(imageForItem(item: closedItems[indexPath.row]), for: .normal)
                 cell.itemNameLabel.text = closedItems[indexPath.row].name
                 cell.delegate = self
                 return cell
             }
-            
         default:
             return UITableViewCell()
         }
-        
     }
-    
-    
+
     private func imageForItem(item : Item) -> UIImage {
         
         item.isCompleted ? UIImage(systemName: "checkmark")! : UIImage(systemName: "square")!
     }
 }
 
+//MARK: - Table View Delegate
 extension ListViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -185,7 +162,6 @@ extension ListViewController : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
             guard let self else {return}
             switch indexPath.section {
@@ -195,7 +171,6 @@ extension ListViewController : UITableViewDelegate {
                 self.closedItems.remove(at: indexPath.row)
             default: break
             }
-            
             viewModel?.updateItems(items: self.openItems + self.closedItems)
             completion(true)
         }
@@ -205,16 +180,13 @@ extension ListViewController : UITableViewDelegate {
     }
     
     private func stopEditing() {
-        
         openItems.indices.forEach {
             openItems[$0].isEditing = false
         }
         closedItems.indices.forEach {
             closedItems[$0].isEditing = false
         }
-        
     }
-    
 }
 
 //MARK: - Section headers
@@ -227,18 +199,18 @@ extension ListViewController  {
         case closedItemSection :
             return "Completed Section"
         default:
-            return nil // Should never reach here
+            return nil
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case openItemSection:
-            return 0
+            return CGFloat(Constants.openItemSectionHeaderHeight)
         case closedItemSection :
-            return 30
+            return CGFloat(Constants.closedItemSectionHeaderHeight)
         default:
-            return 0 // Should never reach here
+            return 0
         }
     }
     
@@ -246,39 +218,34 @@ extension ListViewController  {
         switch indexPath.section {
         case openItemSection :
             if openItems[indexPath.row].isEditing == true {
-                return 140
+                return CGFloat(Constants.detailedItemRowHeight)
             } else {
-                return 40
+                return CGFloat(Constants.itemRowHeight)
             }
         case closedItemSection :
             if closedItems[indexPath.row].isEditing == true {
-                return 140
+                return CGFloat(Constants.detailedItemRowHeight)
             } else {
-                return 40
+                return CGFloat(Constants.itemRowHeight)
             }
-        default : return 40
+        default : return 0
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 10))
-        
         let label = UILabel()
-        label.frame = CGRect.init(x: 5, y: 0, width: headerView.frame.width-0, height: headerView.frame.height - 0)
+        label.frame = CGRect.init(x: 5, y: 0, width: headerView.frame.width, height: headerView.frame.height)
         label.text = "Completed"
         label.font = .systemFont(ofSize: 12)
         label.textColor = .lightGray
         headerView.addSubview(label)
-        
         return headerView
     }
-    
-    
 }
 
 extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewCellDelegate, UIGestureRecognizerDelegate {
     
-    //Hnadle possible index out of bounds here
     func updateItemData(title: String, details: String, sender: UITableViewCell) {
         if let selectedIndexPath = tableView.indexPath(for: sender) {
             switch selectedIndexPath.section {
@@ -293,20 +260,10 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
                 closedItems[selectedIndexPath.row].isEditing = false
                 
             default: break
-                
             }
             
-            updateItems()
-            
+            viewModel?.updateItems(items: openItems + closedItems )
             selectedTitle?.items = self.dataService.convertToList(itemArray: openItems + closedItems)
-//            do {
-//                try self.realm.write {
-//                    self.selectedTitle!.items.removeAll()
-//                    self.selectedTitle!.items.append(objectsIn: self.dataService.convertToList(itemArray: openItems))
-//                }
-//            } catch {
-//                print("Error in encoding item array, \(error)")
-//            }
         }
     }
     
@@ -322,54 +279,7 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
             }
         }
         
-        updateItems()
-    }
-    
-    private func updateItems() {
-        let allItems = openItems + closedItems
-        viewModel?.updateItems(items: allItems )
-        
-    }
-    
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-//        
-//        let location = touch.location(in: self.tableView)
-//        let path = self.tableView.indexPathForRow(at: location)
-//        if let indexPathForRow = path {
-//                            self.tableView(self.tableView, didSelectRowAt: indexPathForRow)
-//            print("In if ")
-//            return true
-//        } else {
-//            // handle tap on empty space below existing rows however you want
-//            print("here")
-//            return true
-//        }
-//    }
-}
-
-
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
-
-extension UITableView {
-    func becomeFirstResponderTextField() {
-    outer: for cell in visibleCells {
-        for view in cell.contentView.subviews {
-            if let textfield = view as? UITextField {
-                textfield.becomeFirstResponder()
-                break outer
-            }
-        }
-    }
+        viewModel?.updateItems(items: openItems + closedItems )
     }
 }
 

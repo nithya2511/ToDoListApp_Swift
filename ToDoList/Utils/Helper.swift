@@ -12,15 +12,12 @@ class Helper {
     
     static let instance = Helper()
     
-    private init() {
-        
-    }
+    private init() {}
     
     func emptyTableViewBGImage() -> UIImageView {
         let imageView = UIImageView(image: UIImage(systemName: "text.badge.plus"))
         imageView.contentMode = .center
         imageView.transform = imageView.transform.scaledBy(x: 5, y: 5)
-        
         imageView.layer.opacity = 0.2
         return imageView
     }

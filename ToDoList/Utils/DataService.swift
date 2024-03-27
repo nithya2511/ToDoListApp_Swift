@@ -16,10 +16,7 @@ class DataService {
     
     let realm = try! Realm()
     
-
-    
     func loadData() -> [Title] {
-        
         return Array(realm.objects(Title.self))
     }
     

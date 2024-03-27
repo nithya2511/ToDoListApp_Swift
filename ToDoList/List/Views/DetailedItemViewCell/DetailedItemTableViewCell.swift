@@ -45,17 +45,22 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     }
     
     @IBAction func itemImageViewPressed(_ sender: UIButton) {
-        delegate?.toggleItemState(sender: self)
+        if let delegate {
+            delegate.toggleItemState(sender: self)
+        } else {
+            return
+        }
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        enteredTitle = textField.text!
+        enteredTitle = textField.text ?? ""
         updateValues()
         return false
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        enteredTitle = textField.text!
+        enteredTitle = textField.text ?? ""
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -72,6 +77,10 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
     }
     
     func updateValues() {
-        delegate?.updateItemData(title: enteredTitle, details: enteredDetails, sender: self)
+        if let delegate {
+            delegate.updateItemData(title: enteredTitle, details: enteredDetails, sender: self)
+        } else {
+            return
+        }
     }
 }
