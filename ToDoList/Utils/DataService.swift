@@ -16,6 +16,8 @@ class DataService {
     
     let realm = try! Realm()
     
+
+    
     func loadData() -> [Title] {
         
         return Array(realm.objects(Title.self))
@@ -47,5 +49,9 @@ class DataService {
             itemList.append(curItem)
         }
         return itemList
+    }
+    
+    func printRealmLocation() {
+        print("Realm is located at:", realm.configuration.fileURL!)
     }
 }
