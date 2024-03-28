@@ -11,6 +11,7 @@ import RSKPlaceholderTextView
 protocol DetailedItemTableViewCellDelegate : AnyObject {
     func toggleItemState(sender : UITableViewCell)
     func updateItemData(title : String, details : String, sender : UITableViewCell)
+    func textViewIsEditing()
 }
 
 class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextViewDelegate {
@@ -63,8 +64,15 @@ class DetailedItemTableViewCell: UITableViewCell, UITextFieldDelegate, UITextVie
         enteredTitle = textField.text ?? ""
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if let delegate {
+            delegate.textViewIsEditing()
+        }
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         enteredDetails = textView.text
+        updateValues()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

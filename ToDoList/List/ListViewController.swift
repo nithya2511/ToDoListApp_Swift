@@ -26,6 +26,7 @@ class ListViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     let realm = try! Realm()
     let dataService = DataService.instance
+    private var tap : UITapGestureRecognizer?
     
     var saveDataCompletionHandler: (([Item]) -> ())?
     
@@ -244,8 +245,7 @@ extension ListViewController  {
     }
 }
 
-extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewCellDelegate, UIGestureRecognizerDelegate {
-    
+extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewCellDelegate {
     func updateItemData(title: String, details: String, sender: UITableViewCell) {
         if let selectedIndexPath = tableView.indexPath(for: sender) {
             switch selectedIndexPath.section {
@@ -281,5 +281,20 @@ extension ListViewController : DetailedItemTableViewCellDelegate, ItemTableViewC
         
         viewModel?.updateItems(items: openItems + closedItems )
     }
+    
+    func textViewIsEditing() {
+        tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
+        guard let tap else { return }
+        self.tableView.backgroundView = UIView()
+        self.tableView.backgroundView?.addGestureRecognizer(tap)
+    }
+    
+    @objc func backgroundTapped() {
+        stopEditing()
+        guard let tap else { return }
+        self.tableView.backgroundView?.removeGestureRecognizer(tap)
+        tableView.reloadData()
+    }
+    
 }
 

@@ -1,5 +1,5 @@
 {
-  "originHash" : "d356e878c82405cb0d3a4816ee94c341b7c0254e33a7a4101499cb91d05528c3",
+  "originHash" : "089aeff5fedbc4d11d58cde92493a23e46caaa30627aece064a9d4becd0a226f",
   "pins" : [
     {
       "identity" : "realm-core",
@@ -26,15 +26,6 @@
       "state" : {
         "revision" : "e10548ab6b9f848e95f4a8edd1083d6894261144",
         "version" : "8.0.0"
-      }
-    },
-    {
-      "identity" : "sttextview",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/onl1ner/STTextView.git",
-      "state" : {
-        "revision" : "f414d0e74d7862a601549774f58307017c1f5cb4",
-        "version" : "1.1.3"
       }
     }
   ],
